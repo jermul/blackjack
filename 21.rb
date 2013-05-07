@@ -23,7 +23,7 @@ def calculate_total(cards) # [['card', 'suit']]
 end
 
 cards = ['2', '3', '4', '5', '6', '7', '8', '9', '10', 'Jack', 'Queen', 'King', 'Ace']
-suits = ['Spades', 'Hearts', 'Diamonds', 'Clubs']
+suits = [' of spades', ' of hearts', ' of clubs', ' of diamonds']
 
 deck = cards.product(suits)
 deck.shuffle!
@@ -47,11 +47,11 @@ puts
 puts "Let's play Blackjack!".center(80)
 puts "-------------------------------------------------------------------------------"
 puts
-puts "Dealer is showing #{dealer_hand[1]}."
-puts "Player has: #{player_hand[0]} and #{player_hand[1]}, for a total value of #{player_total}."
+puts "Dealer is showing #{dealer_hand[0].join}."
+puts "Player has: #{player_hand[0].join} and #{player_hand[1].join}, for a total value of #{player_total}."
 puts
 if dealer_total == 21
-  puts "Sorry, dealer reveals #{dealer_hand[0]} and has hit blackjack. You lose." 
+  puts "Sorry, dealer reveals #{dealer_hand[1].join} and has hit blackjack. You lose." 
   exit
 end
 
@@ -62,7 +62,7 @@ while player_total < 21
 	card_counter += 1
 	if card_counter == 5
 		puts "Player has been dealt five cards without busting, player automatically wins!"
-	  break
+	  exit
 	end
   
   puts "What would you like to do? [H]it or [S]tay?"
@@ -74,23 +74,23 @@ while player_total < 21
   end
 
   if move == 's'
-  	puts 'Player choses to stay.'
+  	puts 'Player chooses to stay.'
   	break
   end
 
   if move == 'h'
   	add_card = deck.pop
-  	puts "#{add_card} dealt to player."
+  	puts "#{add_card.join} dealt to player."
   	player_hand << add_card
   	player_total = calculate_total(player_hand)
   	puts "Your total is now #{player_total}."
   end
 
   if player_total == 21
-  	puts "Congratuations, you've hit Blackjack!. You win!"
+  	puts "Congratuations, Player has hit Blackjack!. Player wins!"
   	exit
   elsif player_total > 21
-  	puts "#{player_total} is over 21. Sorry, you busted."
+  	puts "Sorry, players total of #{player_total} has busted. Player loses."
   	exit
   end
 end
@@ -98,9 +98,9 @@ end
 # Dealer's turn
 
 while dealer_total < 17
-	new_card = deck.pop
-	puts "Dealt new card to dealer: #{new_card}."
-	dealer_hand << new_card
+	add_card = deck.pop
+	puts "Dealt new card to dealer: #{add_card.join}."
+	dealer_hand << add_card
 	dealer_total = calculate_total(dealer_hand)
 	puts "Dealer total is now #{dealer_total}."
 
@@ -115,11 +115,11 @@ end
 
 # Compare hands
 puts "Dealer's hand: "
-dealer_hand.each { |card| puts "#{card}" }
+dealer_hand.each { |card| puts "#{card.join}" }
 puts 
 
 puts "Player's hand: "
-player_hand.each { |card| puts "#{card}" }
+player_hand.each { |card| puts "#{card.join}" }
 puts
 
 if dealer_total > player_total
