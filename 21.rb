@@ -57,12 +57,12 @@ def add_to_account(current_amount, ante_amount)
       puts
     end
   end
-  return current_amount
+  current_amount
 end
 
 def wager(account, ante)
   while true
-    print "How much would you like to wager (#{ante} - #{(account / ante) * ante})? "
+    print "How much would you like to wager (0 - #{(account / ante) * ante})? "
     wager = gets.chomp
     puts
 
@@ -144,7 +144,7 @@ while wants_to_play
   
   # replaces deck with fresh deck whenever the deck gets less than twenty cards
   if deck.count < 20
-    puts "Shuffling the deck."
+    puts "...Shuffling the deck..."
     deck = create_deck
     sleep(1)
   end
@@ -231,7 +231,8 @@ while wants_to_play
         puts "You're holding '#{player_hand[0].join}' and '#{player_hand[1].join}.'"
         next
       else
-        puts 'You must enter "h" to hit or "s" to stay. You can also look at your cards by entering "c".'
+        print 'You must enter "h" to hit or "s" to stay. '
+        puts 'You can also look at your cards by entering "c".'
         next
       end
     end
@@ -275,10 +276,10 @@ while wants_to_play
 
   if winner == "PLAYER"
     account += (winnings + ante)
-    print "You won $#{winnings}. " 
+    print "You won $#{winnings} this hand. " 
   elsif winner == "DEALER"
     account -= wager
-    print "Including your ante, you lost $#{winnings}. "
+    print "Including your ante, you lost $#{winnings} this hand. "
   end
     
   puts "This brings your account total to $#{account}."
@@ -289,12 +290,13 @@ while wants_to_play
 end
   
 if account > 0
-  puts "You cash out with $#{account}."
-  puts
+  print "You cash out with $#{account}. "
   puts "Thanks for playing!"
+  puts
 else
   print "Sorry #{name}, you didn't win anything this time "
   puts "but please come back again!"
+  puts
 end
 
 
